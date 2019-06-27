@@ -1,4 +1,4 @@
-// Check to see if the user has Docker installed and which version of Python they prefer.
+// Check to see if the user has Docker
 
 'use strict';
 var inquirer = require('inquirer');
@@ -9,15 +9,6 @@ var fs = require('fs');
 console.log(chalk.yellow('Hi, a few quick questions before we start:'));
 
 var questions = [
-  {
-    type: 'list',
-    name: 'python',
-    message: 'What Python version?',
-    choices: ['python2.7', 'python3.6'],
-    filter: function (val) {
-      return val.toLowerCase();
-    }
-  },
   {
     type: 'confirm',
     name: 'docker',
@@ -34,14 +25,14 @@ var questions = [
     type: 'input',
     name: 'domainName',
     message: 'What is your domain name? e.g. api.mycompany.com',
-    when: function(answers) {
+    when: function (answers) {
       return answers.wantsDomain
     }
   },
 ]
 
 inquirer.prompt(questions).then(function (answers) {
-  
+
   var doc = YAML.safeLoad(fs.readFileSync('serverless.yml', 'utf8'));
   doc.custom.pythonRequirements.dockerizePip = answers.docker;
   doc.provider.runtime = answers.python;
